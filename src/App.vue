@@ -1,34 +1,17 @@
 <template>
   <div id="app-template">
-    <form>
-      <h4>Создание поста</h4>
-      <input
-        type="text"
-        placeholder="Название"
-        @input="inputValue"
-        :value="title"
-      />
-      <input
-        type="text"
-        placeholder="Описание"
-        @input="inputValue"
-        :value="body"
-      />
-      <button class="btn" @click="createPost">Создать пост</button>
-    </form>
-    <div class="post" v-for="(post, id) in posts" :key="id">
-      <div><strong>Название:</strong>{{ post.title }}</div>
-      <div><strong>Описание:</strong>{{ post.body }}</div>
-    </div>
+    <PostForm @create="createPost" />
+    <PostList :posts="posts" />
   </div>
 </template>
 
 <script>
+import PostForm from "@/components/PostForm.vue";
+import PostList from "@/components/PostList.vue";
 export default {
+  components: { PostForm, PostList },
   data() {
     return {
-      title: "",
-      body: "",
       posts: [
         { id: 1, title: "JavaScript 1", body: "Описание поста 1" },
         { id: 2, title: "JavaScript 2", body: "Описание поста 2" },
@@ -37,45 +20,22 @@ export default {
     };
   },
   methods: {
-    inputValue(e) {
-      this.title = e.target.value;
+    createPost(post) {
+      this.posts.push(post)
     },
-    createPost(obj) {},
+    deleteThisPost() {},
   },
 };
 </script>
 
-<style>
+<style scoped>
 * {
   margin: 0;
-  padding: 5px;
+  padding: 0;
   box-sizing: border-box;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-input {
-  width: 100%;
-  border: 1px solid teal;
-  padding: 10px 15px;
-  margin-top: 15px;
-}
-
-.post {
-  padding: 15px;
-  border: 2px solid teal;
-  margin-top: 15px;
-}
-
-.btn {
-  align-self: flex-end;
-  margin-top: 15px;
-  padding: 10px 15px;
-  background: none;
-  color: teal;
-  border: 1px solid teal;
+#app-template {
+  padding: 10px 40px 0;
 }
 </style>
